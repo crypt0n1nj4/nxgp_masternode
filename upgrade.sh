@@ -1,16 +1,16 @@
 #!/bin/bash
 # upgrade.sh
-# Make sure bitrewardsd is up-to-date
+# Make sure sendd is up-to-date
 # Add the following to the crontab (i.e. crontab -e)
-# 0 0 */1 * * ~/xbrnode/upgrade.sh
+# 0 0 */1 * * ~/sendnode/upgrade.sh
 
 apt update
 
-if apt list --upgradable | grep -v grep | grep bitrewardsd > /dev/null
+if apt list --upgradable | grep -v grep | grep sendd > /dev/null
 then
-  bitrewardsd stop && sleep 10
-  rm ~/.xbitrewards/peers.*
-  apt install bitrewardsd -y && ./bitrewardsd -daemon &
+  sendd stop && sleep 10
+  rm ~/.send/peers.*
+  apt install sendd -y && ./sendd -daemon &
 else
   exit
 fi
