@@ -1,12 +1,12 @@
 #!/bin/bash
 # makerun.sh
-# Make sure bitrewardsd is always running.
+# Make sure sendd is always running.
 # Add the following to the crontab (i.e. crontab -e)
-# */5 * * * * ~/xbrnode/makerun.sh
+# */5 * * * * ~/sendnode/makerun.sh
 
-if ps -A | grep bitrewardsd > /dev/null
+if ps -A | grep sendd > /dev/null
 then
   exit
 else
-  ./bitrewardsd -daemon &
+  ./sendd -daemon &
 fi
