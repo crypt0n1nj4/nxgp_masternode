@@ -7,13 +7,13 @@
 3. Make sure SEND daemon is always up-to-date: `upgrade.sh`
 4. Clear the log file every other day: `clearlog.sh`
 
-#### Login to your vps as root, download the install_sendmn.sh file and then run it:
+#### Login to your vps as root, download the install_sendmn.sh file and then run it. Note: this will reboot the server.
 ```
 wget https://raw.githubusercontent.com/crypt0n1nj4/send_masternode/master/install_sendmn.sh
 bash ./install_sendmn.sh
 ```
 
-#### If you just want to install without dependencies, Login to your vps as root, download the install_sendmn_nodeps.sh file and then run it:
+#### If you just want to install without dependencies, Login to your vps as root, download the install_sendmn_nodeps.sh file and then run it. Note: this will not reboot the server, use this only when you already have dependencies installed.
 ```
 wget https://raw.githubusercontent.com/crypt0n1nj4/send_masternode/master/install_sendmn_nodeps.sh
 bash ./install_sendmn_nodeps.sh
