@@ -92,6 +92,10 @@ wget https://raw.githubusercontent.com/crypt0n1nj4/send_masternode/master/send-c
 chmod +x sendd
 chmod +x send-cli
 
+# copy to usr/bin
+cp sendd /usr/bin
+cp send-cli /usr/bin
+
 # Create a directory for sendnode's cronjobs and the anti-ddos script
 rm -r sendnode
 mkdir sendnode
