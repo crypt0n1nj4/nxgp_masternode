@@ -9,13 +9,13 @@
 
 #### Login to your vps as root, download the install_sendmn.sh file and then run it:
 ```
-wget https://raw.githubusercontent.com/crypt0n1nj4/SEND_masternode/master/install_sendmn.sh
+wget https://raw.githubusercontent.com/crypt0n1nj4/send_masternode/master/install_sendmn.sh
 bash ./install_sendmn.sh
 ```
 
 #### If you just want to install without dependencies, Login to your vps as root, download the install_sendmn_nodeps.sh file and then run it:
 ```
-wget https://raw.githubusercontent.com/crypt0n1nj4/SEND_masternode/master/install_sendmn_nodeps.sh
+wget https://raw.githubusercontent.com/crypt0n1nj4/send_masternode/master/install_sendmn_nodeps.sh
 bash ./install_sendmn_nodeps.sh
 ```
 
