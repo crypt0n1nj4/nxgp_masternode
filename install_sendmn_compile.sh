@@ -65,7 +65,7 @@ logtimestamps=1
 maxconnections=64
 txindex=1
 masternode=1
-externalip=${_nodeIpAddress}:2721
+externalip=${_nodeIpAddress}:50050
 masternodeprivkey=${_nodePrivateKey}
 " > send.conf
 cd
