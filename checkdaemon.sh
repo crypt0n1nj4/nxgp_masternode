@@ -2,7 +2,7 @@
 # checkdaemon.sh
 # Make sure the daemon is not stuck.
 # Add the following to the crontab (i.e. crontab -e)
-# */30 * * * * ~/zsub1xd/checkdaemon.sh
+# */30 * * * * ~/zsub1xnode/checkdaemon.sh
 
 previousBlock=$(cat ~/zsub1xnode/blockcount)
 currentBlock=$(zsub1x-cli getblockcount)
