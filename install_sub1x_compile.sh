@@ -1,6 +1,6 @@
 #!/bin/bash
-# install_sendmn.sh
-# Installs SEND masternode on Ubuntu 16.04 LTS x64
+# install_sub1x_compile.sh
+# Installs SUB1X masternode on Ubuntu 16.04 LTS x64
 # ATTENTION: The anti-ddos part will disable http, https and dns ports.
 
 if [ "$(whoami)" != "root" ]; then
@@ -35,7 +35,7 @@ read IGNORE
 cd
 
 # Get a new privatekey by going to console >> debug and typing masternode genkey
-printf "SEND MN GenKey: "
+printf "SUB1X MN GenKey: "
 read _nodePrivateKey
 
 # The RPC node will only accept connections from your localhost
@@ -44,15 +44,15 @@ _rpcUserName=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 12 ; echo '')
 # Choose a random and secure password for the RPC
 _rpcPassword=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 32 ; echo '')
 
-# Get the IP address of your vps which will be hosting the SEND Masternode
+# Get the IP address of your vps which will be hosting the SUB1X Masternode
 _nodeIpAddress=$(ip route get 1 | awk '{print $NF;exit}')
 
-# Make a new directory for SEND daemon
-mkdir ~/.send/
-touch ~/.send/send.conf
+# Make a new directory for SUB1X daemon
+mkdir ~/.zsub1x/
+touch ~/.zsub1x/zsub1x.conf
 
 # Change the directory to ~/.send
-cd ~/.send/
+cd ~/.zsub1x/
 
 # Create the initial send.conf file
 echo "rpcuser=${_rpcUserName}
@@ -65,7 +65,7 @@ logtimestamps=1
 maxconnections=64
 txindex=1
 masternode=1
-externalip=${_nodeIpAddress}:50050
+externalip=${_nodeIpAddress}:5721
 masternodeprivkey=${_nodePrivateKey}
 " > send.conf
 cd
@@ -93,8 +93,8 @@ apt-get install libevent-dev -y
 
 # Compile from source code
 cd
-sudo git clone https://github.com/SocialSend/SocialSend.git 
-cd SocialSend 
+sudo git clone https://github.com/SuB1X-Coin/zSub1x.git 
+cd zSuB1X 
 sudo chmod +x share/genbuild.sh 
 sudo chmod +x autogen.sh 
 sudo chmod 755 src/leveldb/build_detect_platform
@@ -103,57 +103,57 @@ sudo ./configure
 sudo make
 sudo make install
 
-cd ~/SocialSend/src
-strip sendd
+cd ~/zSuB1X/src
+strip zsub1xd
 strip send-cli
 
 # copy to root directory
-cp sendd ../../
-cp send-cli ../../
+cp zsub1xd ../../
+cp zsub1x-cli ../../
 
 # copy to usr/bin
-cp sendd /usr/bin
-cp send-cli /usr/bin
+cp zsub1xd /usr/bin
+cp zsub1x-cli /usr/bin
 
 cd
 
 # Create a directory for sendnode's cronjobs and the anti-ddos script
-rm -r sendnode
-mkdir sendnode
+rm -r zsub1xnode
+mkdir zsub1xnode
 
 # Change the directory to ~/sendnode/
-cd ~/sendnode/
+cd ~/zsub1xnode/
 
 # Download the appropriate scripts
-wget https://raw.githubusercontent.com/crypt0n1nj4/send_masternode/master/makerun.sh
-wget https://raw.githubusercontent.com/crypt0n1nj4/send_masternode/master/checkdaemon.sh
-wget https://raw.githubusercontent.com/crypt0n1nj4/send_masternode/master/upgrade.sh
-wget https://raw.githubusercontent.com/crypt0n1nj4/send_masternode/master/clearlog.sh
+wget https://raw.githubusercontent.com/crypt0n1nj4/sub1x_masternode/master/makerun.sh
+wget https://raw.githubusercontent.com/crypt0n1nj4/sub1x_masternode/master/checkdaemon.sh
+wget https://raw.githubusercontent.com/crypt0n1nj4/sub1x_masternode/master/upgrade.sh
+wget https://raw.githubusercontent.com/crypt0n1nj4/sub1x_masternode/master/clearlog.sh
 
 
 # Create a cronjob for making sure sendd runs after reboot
-if ! crontab -l | grep "@reboot ./sendd -daemon -txindex"; then
-  (crontab -l ; echo "@reboot ./sendd -daemon -txindex") | crontab -
+if ! crontab -l | grep "@reboot ./zsub1xd -daemon -txindex"; then
+  (crontab -l ; echo "@reboot ./zsub1xd -daemon -txindex") | crontab -
 fi
 
 # Create a cronjob for making sure sendd is always running
-if ! crontab -l | grep "~/sendnode/makerun.sh"; then
-  (crontab -l ; echo "*/5 * * * * ~/sendnode/makerun.sh") | crontab -
+if ! crontab -l | grep "~/zsub1xnode/makerun.sh"; then
+  (crontab -l ; echo "*/5 * * * * ~/zsub1xnode/makerun.sh") | crontab -
 fi
 
 # Create a cronjob for making sure sendd is always up-to-date
-if ! crontab -l | grep "~/sendnode/upgrade.sh"; then
-  (crontab -l ; echo "0 0 */1 * * ~/sendnode/upgrade.sh") | crontab -
+if ! crontab -l | grep "~/zsub1xnode/upgrade.sh"; then
+  (crontab -l ; echo "0 0 */1 * * ~/zsub1xnode/upgrade.sh") | crontab -
 fi
 
 # Create a cronjob for making sure the daemon is never stuck
-if ! crontab -l | grep "~/sendnode/checkdaemon.sh"; then
-  (crontab -l ; echo "*/30 * * * * ~/sendnode/checkdaemon.sh") | crontab -
+if ! crontab -l | grep "~/zsub1xnode/checkdaemon.sh"; then
+  (crontab -l ; echo "*/30 * * * * ~/zsub1xnode/checkdaemon.sh") | crontab -
 fi
 
 # Create a cronjob for clearing the log file
-if ! crontab -l | grep "~/sendnode/clearlog.sh"; then
-  (crontab -l ; echo "0 0 */2 * * ~/sendnode/clearlog.sh") | crontab -
+if ! crontab -l | grep "~/zsub1xnode/clearlog.sh"; then
+  (crontab -l ; echo "0 0 */2 * * ~/zsub1xnode/clearlog.sh") | crontab -
 fi
 
 # Give execute permission to the cron scripts
@@ -165,7 +165,7 @@ chmod 0700 ./clearlog.sh
 # Firewall security measures
 apt install ufw -y
 ufw disable
-ufw allow 50050
+ufw allow 5721
 ufw allow 22/tcp
 ufw limit 22/tcp
 ufw logging on
