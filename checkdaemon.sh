@@ -2,15 +2,15 @@
 # checkdaemon.sh
 # Make sure the daemon is not stuck.
 # Add the following to the crontab (i.e. crontab -e)
-# */30 * * * * ~/sendnode/checkdaemon.sh
+# */30 * * * * ~/zsub1xd/checkdaemon.sh
 
-previousBlock=$(cat ~/sendnode/blockcount)
-currentBlock=$(sendd getblockcount)
+previousBlock=$(cat ~/zsub1xnode/blockcount)
+currentBlock=$(zsub1x-cli getblockcount)
 
-send-cli getblockcount > ~/wirenode/blockcount
+zsub1x-cli getblockcount > ~/zsub1xnode/blockcount
 
 if [ "$previousBlock" == "$currentBlock" ]; then
-  sendd stop
+  zsub1xd stop
   sleep 10
-  ./sendd -daemon
+  ./zsub1xd -daemon
 fi
