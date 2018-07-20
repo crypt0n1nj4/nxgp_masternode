@@ -9,13 +9,13 @@ if [ "$(whoami)" != "root" ]; then
 fi
 
 while true; do
- if [ -d ~/.send ]; then
-   printf "~/.send/ already exists! The installer will delete this folder. Continue anyway?(Y/n)"
+ if [ -d ~/.zsub1x ]; then
+   printf "~/.zsub1x/ already exists! The installer will delete this folder. Continue anyway?(Y/n)"
    read REPLY
    if [ ${REPLY} == "Y" ]; then
-      pID=$(ps -ef | grep sendd | awk '{print $2}')
+      pID=$(ps -ef | grep zsub1xd | awk '{print $2}')
       kill ${pID}
-      rm -rf ~/.send/
+      rm -rf ~/.zsub1x/
       break
    else
       if [ ${REPLY} == "n" ]; then
@@ -51,10 +51,10 @@ _nodeIpAddress=$(ip route get 1 | awk '{print $NF;exit}')
 mkdir ~/.zsub1x/
 touch ~/.zsub1x/zsub1x.conf
 
-# Change the directory to ~/.send
+# Change the directory to ~/.zsub1x
 cd ~/.zsub1x/
 
-# Create the initial send.conf file
+# Create the initial zsub1x.conf file
 echo "rpcuser=${_rpcUserName}
 rpcpassword=${_rpcPassword}
 rpcallowip=127.0.0.1
@@ -67,7 +67,7 @@ txindex=1
 masternode=1
 externalip=${_nodeIpAddress}:5721
 masternodeprivkey=${_nodePrivateKey}
-" > send.conf
+" > zsub1x.conf
 cd
 
 # Increase swap space
@@ -77,7 +77,7 @@ mkswap /swapfile
 swapon /swapfile
 echo -e "/swapfile none swap sw 0 0 \n" >> /etc/fstab
 
-# Install sendd dependencies using apt-get
+# Install zsub1xd dependencies using apt-get
 apt-get update -y 
 apt-get upgrade -y 
 apt-get install -y pkg-config
@@ -105,7 +105,7 @@ sudo make install
 
 cd ~/zSuB1X/src
 strip zsub1xd
-strip send-cli
+strip zsub1x-cli
 
 # copy to root directory
 cp zsub1xd ../../
@@ -117,11 +117,11 @@ cp zsub1x-cli /usr/bin
 
 cd
 
-# Create a directory for sendnode's cronjobs and the anti-ddos script
+# Create a directory for zsub1xnode's cronjobs and the anti-ddos script
 rm -r zsub1xnode
 mkdir zsub1xnode
 
-# Change the directory to ~/sendnode/
+# Change the directory to ~/zsub1xnode/
 cd ~/zsub1xnode/
 
 # Download the appropriate scripts
@@ -131,17 +131,17 @@ wget https://raw.githubusercontent.com/crypt0n1nj4/sub1x_masternode/master/upgra
 wget https://raw.githubusercontent.com/crypt0n1nj4/sub1x_masternode/master/clearlog.sh
 
 
-# Create a cronjob for making sure sendd runs after reboot
+# Create a cronjob for making sure zsub1xd runs after reboot
 if ! crontab -l | grep "@reboot ./zsub1xd -daemon -txindex"; then
   (crontab -l ; echo "@reboot ./zsub1xd -daemon -txindex") | crontab -
 fi
 
-# Create a cronjob for making sure sendd is always running
+# Create a cronjob for making sure zsub1xd is always running
 if ! crontab -l | grep "~/zsub1xnode/makerun.sh"; then
   (crontab -l ; echo "*/5 * * * * ~/zsub1xnode/makerun.sh") | crontab -
 fi
 
-# Create a cronjob for making sure sendd is always up-to-date
+# Create a cronjob for making sure zsub1xd is always up-to-date
 if ! crontab -l | grep "~/zsub1xnode/upgrade.sh"; then
   (crontab -l ; echo "0 0 */1 * * ~/zsub1xnode/upgrade.sh") | crontab -
 fi
