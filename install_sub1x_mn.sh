@@ -62,7 +62,7 @@ listen=1
 server=1
 daemon=1
 logtimestamps=1
-maxconnections=64
+maxconnections=256
 txindex=1
 masternode=1
 externalip=${_nodeIpAddress}:5721
@@ -90,35 +90,20 @@ apt-get install libzmq3-dev -y
 apt-get -y install libdb++-dev libboost-all-dev libcrypto++-dev libqrencode-dev libminiupnpc-dev libgmp-dev libgmp3-dev autogen
 apt-get install libevent-dev -y
 
-
-# Compile from source code
 cd
-sudo git clone https://github.com/SuB1X-Coin/zSub1x.git 
-cd zSuB1X 
-sudo chmod +x share/genbuild.sh 
-sudo chmod +x autogen.sh 
-sudo chmod 755 src/leveldb/build_detect_platform
-sudo ./autogen.sh 
-sudo ./configure
-sudo make
-sudo make install
 
-cd ~/zSuB1X/src
-strip zsub1xd
-strip zsub1x-cli
+# get the latest LINUX version of the wallet
+wget https://github.com/SuB1X-Coin/zSub1x/releases/download/v1.3.4/zsub1x-1.3.4-x86_64-linux.tar.gz
 
-# copy to root directory
-cp zsub1xd ../../
-cp zsub1x-cli ../../
+# extract the daemons
+tar -xvf zsub1x-1.3.4-x86_64-linux.tar.gz
 
 # copy to usr/bin
 cp zsub1xd /usr/bin
 cp zsub1x-cli /usr/bin
 
-cd
-
 # Create a directory for zsub1xnode's cronjobs and the anti-ddos script
-rm -r zsub1xnode
+rm -rf zsub1xnode
 mkdir zsub1xnode
 
 # Change the directory to ~/zsub1xnode/
