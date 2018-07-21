@@ -11,7 +11,7 @@
 #### To compile the daemon from source code. Login to your vps as root, download the install_sub1x_compile.sh file and then run it. Note: This will reboot the server.
 ```
 wget https://raw.githubusercontent.com/crypt0n1nj4/sub1x_masternode/master/install_sub1x_mn.sh
-bash ./install_sub1x_compile.sh
+bash ./install_sub1x_mn.sh
 ```
 
 
