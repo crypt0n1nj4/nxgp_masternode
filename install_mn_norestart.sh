@@ -27,11 +27,6 @@ while true; do
  fi
 done
 
-# Warning that the script will reboot the server
-echo "WARNING: This script will reboot the server when it's finished."
-printf "Press Ctrl+C to cancel or Enter to continue: "
-read IGNORE
-
 cd
 
 # Get a new privatekey by going to console >> debug and typing masternode genkey
